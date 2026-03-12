@@ -63,6 +63,6 @@ print(tau)
 flat_samples = sampler.get_chain(discard=30, thin=15, flat=True)
 
 fig = corner.corner(
-    flat_samples, labels=["kT","norm"], truths=[1.0,1e4], range=[(0.96,1.0005),(9800,1.0003e4)]
+    flat_samples, labels=["kT","norm"], truths=[1.0,1e4], range=[(0.96,1.0006),(9800,1.0004e4)]
 )
 fig.savefig("figures/corner.png")
