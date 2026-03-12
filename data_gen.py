@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+"""
+The following functions are plotting functions for visualisation of data generated.
+"""
+
 def parameter_visualisation(t,gamma,norm,data):
     fig = plt.figure(figsize=(12, 12))
     ax1 = plt.subplot(2, 2, 1)
@@ -45,6 +49,10 @@ def model_spectra_visualisation(egrid, data, model, gamma, norm):
     plt.savefig("figures/model_spectra.png")
     plt.close()
 
+"""
+The following functions are data generation functions for simulating data.
+"""
+
 def gen_noise(time, x, fmin=1e-3, fmax=1e2, nfreq=1e2, beta=1.0, norm=1):
     """Adding some noise à la Timmer & Koenig"""
 
@@ -75,6 +83,10 @@ def generate_data(time_length, dt, egrid, gamma, gamma_scatter, norm):
     data = np.random.poisson(model*dt, size=model.shape)
     return data, model, t, gamma, norm
 
+"""
+Main body of the code.
+"""
+
 time_length = 1000
 dt = 10
 egrid = np.logspace(-1, 2, 100)
@@ -82,5 +94,9 @@ data, model, t, gamma, norm = generate_data(time_length, dt, egrid, 2, 0.25, 10)
 
 parameter_visualisation(t, gamma, norm, data)
 model_spectra_visualisation(egrid, data, model, gamma, norm)
+
+np.save("data/data.npy", data)
+np.save("data/model.npy", model)
+np.save("data/parameters.npy", np.array([gamma, norm]))
 
 print("Finished")
