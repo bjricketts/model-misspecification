@@ -42,10 +42,14 @@ def model_spectra_visualisation(egrid, data, model, gamma, norm):
     ax2 = plt.subplot(1, 2, 2)
     ax2.scatter(egrid, np.sum(data,axis=1), color="red", alpha=0.5, s=10, marker="x", zorder=2)
     ax2.plot(egrid, model_spectrum(egrid, np.mean(gamma), np.mean(norm))*time_length, color="blue", ls= "--", zorder=1)
+    ax2.fill_between(egrid, model_spectrum(egrid, np.mean(gamma)-np.std(gamma), np.mean(norm)-np.std(norm))*time_length,
+                     model_spectrum(egrid, np.mean(gamma)+np.std(gamma), np.mean(norm)+np.std(norm))*time_length, color="blue", alpha=0.2)
     ax2.set_xlabel("Energy (keV)")
     ax2.set_ylabel("Counts")
     ax2.set_title("Total data and averaged model spectrum")
     ax2.loglog()
+
+    plt.tight_layout()
     plt.savefig("figures/model_spectra.png")
     plt.close()
 
