@@ -1,7 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def parameter_visualisation(t,gamma,norm,data,label="gamma"):
+"""
+The following functions are plotting functions for visualisation of data generated.
+"""
+
+def parameter_visualisation(t,gamma,norm,data,label):
     fig = plt.figure(figsize=(12, 12))
     ax1 = plt.subplot(2, 2, 1)
     ax1.plot(t, gamma)
@@ -49,8 +53,31 @@ def model_spectra_visualisation(egrid, data, model, gamma, norm):
     plt.savefig("figures/model_spectra.png")
     plt.close()
 
+"""
+The following functions are data generation functions for simulating data.
+"""
+
 def gen_noise(time, x, fmin=1e-3, fmax=1e2, nfreq=1e2, beta=1.0, norm=1):
-    """Adding some noise à la Timmer & Koenig"""
+    """
+    Adding some noise à la Timmer & Koenig
+    
+    Parameters
+    ----------
+    time : array
+        The time array for the simulation.
+    x : array
+        The input signal to which noise will be added.
+    fmin : float
+        The minimum frequency for the noise.
+    fmax : float
+        The maximum frequency for the noise.
+    nfreq : int
+        The number of frequency bins for the noise.
+    beta : float
+        The spectral index for the noise.
+    norm : float
+        The normalization factor for the noise.
+    """
 
     freqs = 10**((np.log10(fmax) - np.log10(fmin)) *  np.linspace(0, 1, int(nfreq)) + np.log10(fmin))
 
@@ -86,6 +113,24 @@ def model_spectrum_pl(egrid, gamma, norm):
     return norm * egrid**-gamma
 
 def generate_data(time_length, dt, egrid, temp, temp_scatter, norm):
+    """
+    Generate synthetic data for the model.
+
+    Parameters
+    ----------
+    time_length : int
+        The total length of time for the simulation.
+    dt : int
+        The time resolution of the simulation.
+    egrid : array
+        The energy grid for the simulation.
+    gamma : float
+        The spectral index for the simulation.
+    temp_scatter : float
+        The amount of scatter in the gamma values.
+    norm : float
+        The normalization factor for the simulation.
+    """
     t = np.linspace(0, time_length, time_length//dt)
     model = np.zeros(shape=(len(egrid), len(t)))
     temp = np.ones(shape=len(t)) * temp
