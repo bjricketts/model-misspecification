@@ -54,7 +54,26 @@ The following functions are data generation functions for simulating data.
 """
 
 def gen_noise(time, x, fmin=1e-3, fmax=1e2, nfreq=1e2, beta=1.0, norm=1):
-    """Adding some noise à la Timmer & Koenig"""
+    """
+    Adding some noise à la Timmer & Koenig
+    
+    Parameters
+    ----------
+    time : array
+        The time array for the simulation.
+    x : array
+        The input signal to which noise will be added.
+    fmin : float
+        The minimum frequency for the noise.
+    fmax : float
+        The maximum frequency for the noise.
+    nfreq : int
+        The number of frequency bins for the noise.
+    beta : float
+        The spectral index for the noise.
+    norm : float
+        The normalization factor for the noise.
+    """
 
     freqs = 10**((np.log10(fmax) - np.log10(fmin)) *  np.linspace(0, 1, int(nfreq)) + np.log10(fmin))
 
@@ -67,10 +86,39 @@ def gen_noise(time, x, fmin=1e-3, fmax=1e2, nfreq=1e2, beta=1.0, norm=1):
     return lc - np.mean(lc) + lc0
 
 def model_spectrum(egrid, gamma, norm):
-    """Generate the model spectrum."""
+    """
+    Generate the model spectrum. Simple powerlaw.
+    
+    Parameters
+    ----------
+    egrid : array
+        The energy grid for the simulation.
+    gamma : float
+        The spectral index for the simulation.
+    norm : float
+        The normalization factor for the simulation.
+    """
     return norm * egrid**-gamma
 
 def generate_data(time_length, dt, egrid, gamma, gamma_scatter, norm):
+    """
+    Generate synthetic data for the model.
+
+    Parameters
+    ----------
+    time_length : int
+        The total length of time for the simulation.
+    dt : int
+        The time resolution of the simulation.
+    egrid : array
+        The energy grid for the simulation.
+    gamma : float
+        The spectral index for the simulation.
+    gamma_scatter : float
+        The amount of scatter in the gamma values.
+    norm : float
+        The normalization factor for the simulation.
+    """
     t = np.linspace(0, time_length, time_length//dt)
     model = np.zeros(shape=(len(egrid), len(t)))
     gamma = np.ones(shape=len(t)) * gamma
